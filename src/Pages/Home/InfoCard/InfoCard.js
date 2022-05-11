@@ -1,7 +1,6 @@
 import React from "react";
 
 const InfoCard = ({ myIcon, bgClass, cardTitle }) => {
-  console.log(bgClass);
   return (
     <div className={` card lg:card-side shadow-xl ${bgClass}`}>
       <figure>
