@@ -14,8 +14,8 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <label
-            for="Booking-modal"
-            class="btn btn-sm btn-circle absolute right-2 top-2"
+            htmlFor="Booking-modal"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
           </label>
@@ -32,34 +32,37 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
               disabled
               value={format(date, "PP")}
               placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
+              className="input input-bordered w-full max-w-xs"
             />
-            <select name="slot" class="select select-bordered w-full max-w-xs">
-              {treatment.slots.map((slot) => (
-                <option>{slot}</option>
+            <select
+              name="slot"
+              className="select select-bordered w-full max-w-xs"
+            >
+              {treatment.slots.map((slot, index) => (
+                <option key={index}>{slot}</option>
               ))}
             </select>
             <input
               type="text"
               name="name"
               placeholder="Name"
-              class="input input-bordered w-full max-w-xs"
+              className="input input-bordered w-full max-w-xs"
             />
             <input
               type="number"
               name="number"
               placeholder="Type here"
-              class="input input-bordered w-full max-w-xs"
+              className="input input-bordered w-full max-w-xs"
             />
             <input
               type="email"
               name=""
               placeholder="Email"
-              class="input input-bordered w-full max-w-xs"
+              className="input input-bordered w-full max-w-xs"
             />
             <input
               type="submit"
-              class="input input-bordered w-full max-w-xs bg-secondary cursor-pointer"
+              className="input input-bordered w-full max-w-xs bg-secondary  bg-gradient-to-r from-secondary to-primary cursor-pointer"
             />
           </form>
         </div>

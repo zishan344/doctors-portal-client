@@ -44,7 +44,7 @@ const Testimonials = () => {
       </div>
       <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-6 my-10 sm:justify-center">
         {reviews.map((review) => (
-          <Reviews review={review} />
+          <Reviews key={review._id} review={review} />
         ))}
       </div>
     </section>

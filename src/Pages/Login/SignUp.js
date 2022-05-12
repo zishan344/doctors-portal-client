@@ -1,51 +1,74 @@
 import React from "react";
 import {
-  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
+  useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import Spinner from "../Shared/Spinner";
-
-const Login = () => {
+const SignUp = () => {
   const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, updating, uerror] = useUpdateProfile(auth);
+  const navigate = useNavigate();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const navigate = useNavigate();
-  const location = useLocation();
-  let from = location.state?.from?.pathname || "/";
-
-  const onSubmit = (data) => {
-    signInWithEmailAndPassword(data.email, data.password);
-    console.log(data);
+  const onSubmit = async (data) => {
+    await createUserWithEmailAndPassword(data.email, data.password);
+    await updateProfile({ displayName: data.name });
+    navigate("/appointment");
+    console.log("update done");
   };
   let signInError;
 
-  if (gerror || error) {
+  if (gerror || error || uerror) {
     signInError = (
       <p className="text-red-500">
         <small>{error.message || gerror.message}</small>
       </p>
     );
   }
-  if (gloading || loading) {
+  if (gloading || loading || updating) {
     return <Spinner />;
   }
-  if (guser || user) {
-    navigate(from, { replace: true });
+  if (user || guser) {
+    console.log(user || guser);
   }
-
   return (
     <div className="h-screen flex justify-center items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "name is required",
+                  },
+                })}
+                type="name"
+                placeholder="Name"
+                className="input input-bordered w-full max-w-xs"
+              />
+              <label className="label">
+                {errors.name?.type === "required" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
+            </div>
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -114,14 +137,14 @@ const Login = () => {
             <input
               className="btn w-full max-w-xs font-bold text-white"
               type="submit"
-              value="Login"
+              value="Register"
             />
           </form>
           <p>
             <small>
-              New to doctors portal:{" "}
-              <Link to="/signup" className="text-secondary">
-                create an account
+              Already have an account:{" "}
+              <Link to="/login" className="text-secondary">
+                Please login
               </Link>
             </small>
           </p>
@@ -141,4 +164,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
