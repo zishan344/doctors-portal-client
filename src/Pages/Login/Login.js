@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
@@ -9,6 +10,9 @@ import auth from "../../firebase.init";
 import Spinner from "../Shared/Spinner";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [sendPasswordResetEmail, sending, restError] =
+    useSendPasswordResetEmail(auth);
   const [signInWithGoogle, guser, gloading, gerror] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
@@ -27,22 +31,28 @@ const Login = () => {
   };
   let signInError;
 
-  if (gerror || error) {
+  if (gerror || error || restError) {
     signInError = (
       <p className="text-red-500">
-        <small>{error.message || gerror.message}</small>
+        <small>
+          {error.message || gerror.message}||{restError.message}
+        </small>
       </p>
     );
   }
-  if (gloading || loading) {
+  if (gloading || loading || sending) {
     return <Spinner />;
   }
   if (guser || user) {
     navigate(from, { replace: true });
   }
+  const forgetPassword = async () => {
+    await sendPasswordResetEmail(email);
+    alert("Sent email");
+  };
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-[calc(100vh-64px)] flex justify-center items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -61,6 +71,7 @@ const Login = () => {
                     message: "provide a valid email",
                   },
                 })}
+                onBlur={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="Email"
                 className="input input-bordered w-full max-w-xs"
@@ -109,6 +120,12 @@ const Login = () => {
                   </span>
                 )}
               </label>
+              <p
+                onClick={forgetPassword}
+                className="text-primary mb-2 cursor-pointer"
+              >
+                Forget password
+              </p>
             </div>
             {signInError}
             <input

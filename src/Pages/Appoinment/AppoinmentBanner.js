@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import React from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -10,7 +9,6 @@ const AppoinmentBanner = ({ date, setDate }) => {
         <img src={chair} className="max-w-sm  rounded-lg shadow-2xl" />
         <div>
           <DayPicker mode="single" selected={date} onSelect={setDate} />
-          <p>you have selected : {format(date, "PP")}</p>
         </div>
       </div>
     </div>

@@ -1,11 +1,25 @@
 import { format } from "date-fns";
 import React from "react";
-
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 const BookingModal = ({ date, treatment, setTreatment }) => {
+  const { _id, name } = treatment;
+  const [user, loading, error] = useAuthState(auth);
+  const formateDate = format(date, "PP");
   const appointmentSubmit = (e) => {
     e.preventDefault();
     const slot = e.target.slot.value;
-    console.log(slot);
+    const userName = user?.displayName;
+    const booking = {
+      treatmentId: _id,
+      treatment: name,
+      date: formateDate,
+      slot,
+      patient: user.email,
+      patientName: userName,
+      phone: e.target.number.value,
+    };
+
     setTreatment(null);
   };
   return (
@@ -20,7 +34,7 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
             ✕
           </label>
           <h3 className="font-bold text-lg text-secondary">
-            Booking For: {treatment.name}
+            Booking For: {name}
           </h3>
           <form
             onSubmit={appointmentSubmit}
@@ -45,21 +59,26 @@ const BookingModal = ({ date, treatment, setTreatment }) => {
             <input
               type="text"
               name="name"
+              value={user.displayName}
+              disabled
               placeholder="Name"
+              className="input input-bordered w-full max-w-xs"
+            />
+            <input
+              type="email"
+              value={user.email}
+              disabled
+              name="email"
+              placeholder="Email"
               className="input input-bordered w-full max-w-xs"
             />
             <input
               type="number"
               name="number"
-              placeholder="Type here"
+              placeholder="Number"
               className="input input-bordered w-full max-w-xs"
             />
-            <input
-              type="email"
-              name=""
-              placeholder="Email"
-              className="input input-bordered w-full max-w-xs"
-            />
+
             <input
               type="submit"
               className="input input-bordered w-full max-w-xs bg-secondary  bg-gradient-to-r from-secondary to-primary cursor-pointer"
