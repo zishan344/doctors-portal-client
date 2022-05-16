@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useSendPasswordResetEmail,
   useSignInWithEmailAndPassword,
@@ -7,6 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
+import useTooken from "../Hooks/useTooken";
 import Spinner from "../Shared/Spinner";
 
 const Login = () => {
@@ -40,11 +41,14 @@ const Login = () => {
       </p>
     );
   }
+  const [token] = useTooken(guser || user);
+  useEffect(() => {
+    if (token) {
+      navigate(from, { replace: true });
+    }
+  }, [token, from, navigate]);
   if (gloading || loading || sending) {
     return <Spinner />;
-  }
-  if (guser || user) {
-    navigate(from, { replace: true });
   }
   const forgetPassword = async () => {
     await sendPasswordResetEmail(email);

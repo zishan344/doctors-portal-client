@@ -8,7 +8,7 @@ const Navbar = () => {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname);
+
   const menuItems = (
     <>
       <li>
@@ -41,6 +41,7 @@ const Navbar = () => {
           <button
             onClick={() => {
               signOut(auth);
+              localStorage.removeItem("access_token");
               navigate("/login");
             }}
             className="btn btn-ghost"

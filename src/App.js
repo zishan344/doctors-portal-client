@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import About from "./Pages/About/About";
 import Appoinment from "./Pages/Appoinment/Appoinment";
+import AllUsers from "./Pages/Dashboard/AllUsers";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import MyAppointments from "./Pages/Dashboard/MyAppointments";
 import MyReview from "./Pages/Dashboard/MyReview";
@@ -38,7 +39,8 @@ function App() {
           }
         >
           <Route index element={<MyAppointments />} />
-          <Route path="/dashboard/review" element={<MyReview />} />
+          <Route path="review" element={<MyReview />} />
+          <Route path="user" element={<AllUsers />} />
         </Route>
       </Routes>
       <ToastContainer />

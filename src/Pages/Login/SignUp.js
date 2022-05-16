@@ -8,6 +8,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
+import useTooken from "../Hooks/useTooken";
 import Spinner from "../Shared/Spinner";
 
 const SignUp = () => {
@@ -26,11 +27,14 @@ const SignUp = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
+
+  const [token] = useTooken(user || guser);
+
   const onSubmit = async (data) => {
     await createUserWithEmailAndPassword(data.email, data.password);
     await updateProfile({ displayName: data.name });
-    navigate("/appointment");
-    console.log("update done");
+    // navigate("/appointment");
+    // console.log("update done");
   };
   let signInError;
 
@@ -44,8 +48,8 @@ const SignUp = () => {
   if (gloading || loading || updating) {
     return <Spinner />;
   }
-  if (user || guser) {
-    console.log(user || guser);
+  if (token) {
+    navigate("/appointment");
   }
   return (
     <div className="h-screen flex justify-center items-center">
