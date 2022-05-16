@@ -4,12 +4,13 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import About from "./Pages/About/About";
 import Appoinment from "./Pages/Appoinment/Appoinment";
-import AllUsers from "./Pages/Dashboard/AllUsers";
+import Users from "./Pages/Dashboard/AllUsers";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import MyAppointments from "./Pages/Dashboard/MyAppointments";
 import MyReview from "./Pages/Dashboard/MyReview";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
+import RequareAdmin from "./Pages/Login/RequareAdmin";
 import RequireAuth from "./Pages/Login/RequireAuth";
 import SignUp from "./Pages/Login/SignUp";
 import Navbar from "./Pages/Shared/Navbar";
@@ -40,7 +41,14 @@ function App() {
         >
           <Route index element={<MyAppointments />} />
           <Route path="review" element={<MyReview />} />
-          <Route path="user" element={<AllUsers />} />
+          <Route
+            path="user"
+            element={
+              <RequareAdmin>
+                <Users />
+              </RequareAdmin>
+            }
+          />
         </Route>
       </Routes>
       <ToastContainer />

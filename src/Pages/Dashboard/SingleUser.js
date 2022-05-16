@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const SingleUser = ({ user, index, refetch }) => {
   const { email, role } = user;
-  console.log(role);
+
   const makeAdmin = () => {
     fetch(`http://localhost:5000/users/admin/${email}`, {
       method: "PUT",
@@ -11,10 +11,17 @@ const SingleUser = ({ user, index, refetch }) => {
         authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 403) {
+          toast.error("Failed to Make an admin");
+        }
+        return res.json();
+      })
       .then((data) => {
-        toast.success("Make an Admin Successfully");
-        refetch();
+        if (data.modifiedCount > 0) {
+          toast.success("Make an Admin Successfully");
+          refetch();
+        }
       });
   };
 
