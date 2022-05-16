@@ -1,16 +1,38 @@
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
+import Spinner from "../Shared/Spinner";
 import BookingModal from "./BookingModal";
 import Service from "./Service";
-
 const AvailableAppointments = ({ date }) => {
-  const [services, setService] = useState([]);
   const [treatment, setTreatment] = useState(null);
-  useEffect(() => {
-    fetch("http://localhost:5000/services")
-      .then((res) => res.json())
-      .then((data) => setService(data));
-  }, []);
+  const formatDate = format(date, "PP");
+  // const [services, setService] = useState([]);
+  const {
+    data: services,
+    isLoading,
+    refetch,
+  } = useQuery(["available", formatDate], () =>
+    fetch(`http://localhost:5000/available?date=${formatDate}`).then((res) =>
+      res.json()
+    )
+  );
+  // const {
+  //   data: services,
+  //   isLoading,
+  // } = useQuery("available", formatDate, () => {
+  //   fetch(`http://localhost:5000/available?date=${formatDate}`).then((res) =>
+  //     res.json()
+  //   );
+  // });
+  if (isLoading) {
+    return <Spinner />;
+  }
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/available?date=${formatDate}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setService(data));
+  // }, [formatDate]);
   return (
     <div>
       <h2 className="text-secondary text-center font-bold text-xl">
@@ -18,7 +40,7 @@ const AvailableAppointments = ({ date }) => {
         Available Appointments on {format(date, "PP")}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-12">
-        {services.map((service) => (
+        {services?.map((service) => (
           <Service
             setTreatment={setTreatment}
             key={service._id}
@@ -30,6 +52,7 @@ const AvailableAppointments = ({ date }) => {
         <BookingModal
           date={date}
           treatment={treatment}
+          refetch={refetch}
           setTreatment={setTreatment}
         />
       )}

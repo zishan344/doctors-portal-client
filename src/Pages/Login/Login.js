@@ -35,7 +35,7 @@ const Login = () => {
     signInError = (
       <p className="text-red-500">
         <small>
-          {error.message || gerror.message}||{restError.message}
+          {error?.message || gerror?.message}||{restError?.message}
         </small>
       </p>
     );
