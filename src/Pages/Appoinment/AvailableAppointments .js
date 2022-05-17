@@ -13,15 +13,15 @@ const AvailableAppointments = ({ date }) => {
     isLoading,
     refetch,
   } = useQuery(["available", formatDate], () =>
-    fetch(`http://localhost:5000/available?date=${formatDate}`).then((res) =>
-      res.json()
-    )
+    fetch(
+      `https://afternoon-plateau-95028.herokuapp.com/available?date=${formatDate}`
+    ).then((res) => res.json())
   );
   // const {
   //   data: services,
   //   isLoading,
   // } = useQuery("available", formatDate, () => {
-  //   fetch(`http://localhost:5000/available?date=${formatDate}`).then((res) =>
+  //   fetch(`https://afternoon-plateau-95028.herokuapp.com/available?date=${formatDate}`).then((res) =>
   //     res.json()
   //   );
   // });
@@ -29,7 +29,7 @@ const AvailableAppointments = ({ date }) => {
     return <Spinner />;
   }
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/available?date=${formatDate}`)
+  //   fetch(`https://afternoon-plateau-95028.herokuapp.com/available?date=${formatDate}`)
   //     .then((res) => res.json())
   //     .then((data) => setService(data));
   // }, [formatDate]);

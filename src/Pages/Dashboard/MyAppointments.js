@@ -8,12 +8,15 @@ const MyAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch(`http://localhost:5000/availableAppointments?patient=${user.email}`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    fetch(
+      `https://afternoon-plateau-95028.herokuapp.com/availableAppointments?patient=${user.email}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }
+    )
       .then((res) => {
         if (res.status === 401 || res.status === 403) {
           signOut(auth);

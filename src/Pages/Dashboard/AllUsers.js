@@ -12,7 +12,7 @@ const AllUsers = () => {
     isLoading,
     refetch,
   } = useQuery("users", () =>
-    fetch("http://localhost:5000/user", {
+    fetch("https://afternoon-plateau-95028.herokuapp.com/user", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -28,7 +28,7 @@ const AllUsers = () => {
   );
 
   // const { data: users, isLoading } = useQuery("users", () =>
-  //   fetch("http://localhost:5000/user").then((res) => res.json())
+  //   fetch("https://afternoon-plateau-95028.herokuapp.com/user").then((res) => res.json())
   // );
 
   if (isLoading) {

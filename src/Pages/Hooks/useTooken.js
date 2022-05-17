@@ -6,7 +6,7 @@ const useTooken = (user) => {
     const email = user?.user?.email;
     const currentUser = { email: email };
     if (email) {
-      fetch(`http://localhost:5000/users/${email}`, {
+      fetch(`https://afternoon-plateau-95028.herokuapp.com/users/${email}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
