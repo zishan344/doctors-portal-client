@@ -10,6 +10,7 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import ManageDoctor from "./Pages/Dashboard/ManageDoctor";
 import MyAppointments from "./Pages/Dashboard/MyAppointments";
 import MyReview from "./Pages/Dashboard/MyReview";
+import Payment from "./Pages/Dashboard/Payment";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import RequareAdmin from "./Pages/Login/RequareAdmin";
@@ -43,6 +44,7 @@ function App() {
         >
           <Route index element={<MyAppointments />} />
           <Route path="review" element={<MyReview />} />
+          <Route path="payment/:id" element={<Payment />} />
           <Route
             path="user"
             element={

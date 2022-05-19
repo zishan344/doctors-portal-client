@@ -17,22 +17,11 @@ const AvailableAppointments = ({ date }) => {
       `https://afternoon-plateau-95028.herokuapp.com/available?date=${formatDate}`
     ).then((res) => res.json())
   );
-  // const {
-  //   data: services,
-  //   isLoading,
-  // } = useQuery("available", formatDate, () => {
-  //   fetch(`https://afternoon-plateau-95028.herokuapp.com/available?date=${formatDate}`).then((res) =>
-  //     res.json()
-  //   );
-  // });
+
   if (isLoading) {
     return <Spinner />;
   }
-  // useEffect(() => {
-  //   fetch(`https://afternoon-plateau-95028.herokuapp.com/available?date=${formatDate}`)
-  //     .then((res) => res.json())
-  //     .then((data) => setService(data));
-  // }, [formatDate]);
+
   return (
     <div>
       <h2 className="text-secondary text-center font-bold text-xl">
