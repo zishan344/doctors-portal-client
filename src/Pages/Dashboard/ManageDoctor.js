@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Spinner from "../Shared/Spinner";
+import DeleteModal from "./DeleteModal";
 import DoctorRow from "./DoctorRow";
 
 const ManageDoctor = () => {
+  const [deleteModal, setDeleteModal] = useState(null);
   const {
     data: doctors,
     isLoading,
     refetch,
   } = useQuery("doctors", () =>
-    fetch(" http://localhost:5000/doctors", {
+    fetch("http://localhost:5000/doctors", {
       headers: {
         authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
@@ -39,10 +41,18 @@ const ManageDoctor = () => {
                 doctor={doctor}
                 index={index}
                 refetch={refetch}
+                setDeleteModal={setDeleteModal}
               ></DoctorRow>
             ))}
           </tbody>
         </table>
+        {deleteModal && (
+          <DeleteModal
+            deleteModal={deleteModal}
+            refetch={refetch}
+            setDeleteModal={setDeleteModal}
+          ></DeleteModal>
+        )}
       </div>
     </div>
   );

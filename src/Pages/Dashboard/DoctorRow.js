@@ -1,24 +1,7 @@
 import React from "react";
-import { toast } from "react-toastify";
 
-const DoctorRow = ({ doctor, index, refetch }) => {
+const DoctorRow = ({ doctor, index, refetch, setDeleteModal }) => {
   const { email, name, specialty, img } = doctor;
-  const handleDelete = (email) => {
-    fetch(`http://localhost:5000/doctor/${email}`, {
-      method: "DELETE",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.deletedCount) {
-          toast.success(`Doctors: ${name} successfully`);
-          refetch();
-        }
-      });
-  };
   return (
     <tr>
       <th>{index + 1}</th>
@@ -32,12 +15,13 @@ const DoctorRow = ({ doctor, index, refetch }) => {
       <td>{name}</td>
       <td>{specialty}</td>
       <td>
-        <button
-          onClick={() => handleDelete(email)}
-          class="btn btn-xs btn-error"
+        <label
+          for="my-modal-6"
+          onClick={() => setDeleteModal(doctor)}
+          class="btn modal-button btn-xs btn-error"
         >
           Delete
-        </button>
+        </label>
       </td>
     </tr>
   );
