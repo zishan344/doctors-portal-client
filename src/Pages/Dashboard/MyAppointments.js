@@ -55,7 +55,7 @@ const MyAppointments = () => {
                     <button className="btn btn-xs btn-success">pay</button>
                   </Link>
                 )}
-                {a?.price && a.pad && (
+                {a?.price && a.paid && (
                   <p>
                     <span className="text-success">Paid</span>
                   </p>
