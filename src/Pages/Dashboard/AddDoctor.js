@@ -12,7 +12,9 @@ const AddDoctor = () => {
     reset,
   } = useForm();
   const { data: services, isLoading } = useQuery(["services"], () =>
-    fetch("http://localhost:5000/services").then((res) => res.json())
+    fetch(" https://afternoon-plateau-95028.herokuapp.com/services").then(
+      (res) => res.json()
+    )
   );
   if (isLoading) {
     return <Spinner />;
@@ -38,7 +40,7 @@ const AddDoctor = () => {
             specialty: data.services,
             img: image,
           };
-          fetch("http://localhost:5000/doctor", {
+          fetch(" https://afternoon-plateau-95028.herokuapp.com/doctor", {
             method: "POST",
             headers: {
               "content-type": "application/json",

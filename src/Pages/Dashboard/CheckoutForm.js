@@ -12,14 +12,17 @@ const CheckoutForm = ({ appointment }) => {
 
   const { _id, price, patient, patientName } = appointment;
   useEffect(() => {
-    fetch("http://localhost:5000/crete-payment-intent", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-      body: JSON.stringify({ price }),
-    })
+    fetch(
+      " https://afternoon-plateau-95028.herokuapp.com/crete-payment-intent",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify({ price }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data?.clientSecret) {
@@ -70,7 +73,7 @@ const CheckoutForm = ({ appointment }) => {
         appointment: _id,
         transactionId: paymentIntent.id,
       };
-      fetch(`http://localhost:5000/booking/${_id}`, {
+      fetch(` https://afternoon-plateau-95028.herokuapp.com/booking/${_id}`, {
         method: "PATCH",
         headers: {
           "content-type": "application/json",
